@@ -27,8 +27,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,20 +38,21 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.gabriel.animalapp.ui.theme.AnimalAppTheme
 
+@ExperimentalMaterial3Api
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             AnimalAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                AnimalApp()
             }
         }
     }
@@ -114,7 +117,7 @@ fun AnimalScreen(animal: String) {
     val context = LocalContext.current
     val imageRes = if (animal == "Bird") R.drawable.bird_photo else R.drawable.monkey_photo
     val soundRes = if (animal == "Bird") R.raw.bird_song else R.raw.monkey_song
-    val videoRes = if (animal == "Bird") R.raw.bird_song else R.raw.monkey_video
+    val videoRes = if (animal == "Bird") R.raw.bird_video else R.raw.monkey_video
 
     Column(
         modifier = Modifier
@@ -122,7 +125,6 @@ fun AnimalScreen(animal: String) {
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Imagem do animal
         Image(
             painter = painterResource(id = imageRes),
             contentDescription = "$animal Image",
@@ -149,7 +151,6 @@ fun AnimalScreen(animal: String) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Botão para reproduzir o vídeo
         Button(onClick = {
             val intent = Intent(context, VideoPlayerActivity::class.java)
             intent.putExtra("videoRes", videoRes)
@@ -159,6 +160,27 @@ fun AnimalScreen(animal: String) {
         }
     }
 }
+
+@ExperimentalMaterial3Api
+@Composable
+fun AnimalApp() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "home") {
+        composable("home") {
+            HomeScreen(onAnimalSelected = { animal ->
+                navController.navigate("animal/$animal")
+            })
+        }
+        composable(
+            "animal/{animal}",
+            arguments = listOf(navArgument("animal") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val animal = backStackEntry.arguments?.getString("animal") ?: "Bird"
+            AnimalScreen(animal)
+        }
+    }
+}
+
 
 
 @Composable
