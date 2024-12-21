@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.gabriel.animalapp"
+    namespace = "com.gabriel.alarmapp"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.gabriel.animalapp"
+        applicationId = "com.gabriel.alarmapp"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
@@ -50,21 +50,11 @@ android {
 }
 
 dependencies {
-    implementation("androidx.compose.ui:ui:1.5.0")
-    implementation("androidx.compose.material3:material3:1.2.0")
-    implementation("androidx.compose.runtime:runtime:1.5.0")
-    implementation("androidx.compose.foundation:foundation:1.5.0")
-
-    // Navigation Component para Compose
-    implementation("androidx.navigation:navigation-compose:2.8.5")
-
-    // Media (opcional para áudio e vídeo)
-    implementation("androidx.media:media:1.6.0")
-
-    // AndroidX Core
-    implementation("androidx.core:core-ktx:1.12.0")
-
-
+    implementation ("androidx.compose.ui:ui:1.5.1")
+    implementation ("androidx.compose.material:material:1.5.1")
+    implementation ("androidx.compose.ui:ui-tooling-preview:1.5.1")
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    implementation ("androidx.activity:activity-compose:1.7.2")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
