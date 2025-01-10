@@ -3,20 +3,17 @@ package com.gabriel.crudapp
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
-import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,41 +30,43 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-
 class MainActivity : ComponentActivity() {
 
     private val viewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        setContent {
+            UserApp(viewModel)
+        }
     }
 }
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun UserApp(viewModel: UserViewModel){
+fun UserApp(viewModel: UserViewModel) {
     val usuarios by viewModel.users.observeAsState(emptyList())
     var nome by remember { mutableStateOf("") }
     var idade by remember { mutableStateOf("") }
     var usuarioEditando by remember { mutableStateOf<User?>(null) }
     var mensagemErro by remember { mutableStateOf<String?>(null) }
 
-
     Scaffold(
         topBar = {
             TopAppBar(
-                title= { Text(text = "Gerenciamento de Usuários")},
+                title = { Text(text = "Gerenciamento de Usuários") },
                 backgroundColor = MaterialTheme.colors.primary,
                 contentColor = Color.White
             )
         }
     ) {
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
             Text(
-                if(usuarioEditando == null) "Adiocnar um novo Usuário"
+                if (usuarioEditando == null) "Adicionar um novo Usuário"
                 else "Editar Usuário",
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp,
@@ -76,8 +75,8 @@ fun UserApp(viewModel: UserViewModel){
 
             OutlinedTextField(
                 value = nome,
-                onValueChange = {nome = it},
-                label = { Text(text = "Nome")},
+                onValueChange = { nome = it },
+                label = { Text(text = "Nome") },
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -85,8 +84,8 @@ fun UserApp(viewModel: UserViewModel){
 
             OutlinedTextField(
                 value = idade,
-                onValueChange = {idade = it},
-                label = { Text(text = "Idade")},
+                onValueChange = { idade = it },
+                label = { Text(text = "Idade") },
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
             )
@@ -96,19 +95,19 @@ fun UserApp(viewModel: UserViewModel){
             Button(
                 onClick = {
                     try {
-                        if (nome.isNotEmpty() && idade.isNotEmpty()){
+                        if (nome.isNotEmpty() && idade.isNotEmpty()) {
                             val idadeInt = idade.toInt()
-                            if (usuarioEditando == null){
+                            if (usuarioEditando == null) {
                                 viewModel.addUser(User(name = nome, age = idadeInt))
-                            }else{
+                            } else {
                                 viewModel.updateUser(usuarioEditando!!.copy(name = nome, age = idadeInt))
                                 usuarioEditando = null
                             }
                             nome = ""
                             idade = ""
-                            mensagemErro = ""
+                            mensagemErro = null
                         }
-                    }catch (e: NumberFormatException){
+                    } catch (e: NumberFormatException) {
                         mensagemErro = "Idade inválida"
                     }
                 },
@@ -125,7 +124,41 @@ fun UserApp(viewModel: UserViewModel){
             Spacer(modifier = Modifier.height(16.dp))
             Divider(color = Color.Gray, thickness = 1.dp)
 
+            Spacer(modifier = Modifier.height(16.dp))
+            Text("Lista de Usuários", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                items(usuarios) { usuario ->
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp)
+                    ) {
+                        Text("Nome: ${usuario.name}", fontSize = 16.sp)
+                        Text("Idade: ${usuario.age}", fontSize = 16.sp)
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Button(onClick = {
+                                nome = usuario.name
+                                idade = usuario.age.toString()
+                                usuarioEditando = usuario
+                            }) {
+                                Text("Editar")
+                            }
+
+                            Button(onClick = {
+                                viewModel.deleteUser(usuario)
+                            }) {
+                                Text("Excluir")
+                            }
+                        }
+                    }
+                    Divider(color = Color.Gray, thickness = 1.dp)
+                }
+            }
         }
     }
 }
-
