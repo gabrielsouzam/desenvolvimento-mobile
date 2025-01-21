@@ -26,6 +26,8 @@ import com.gabriel.postapp.viewmodel.PostViewModel
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.TextButton
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -47,19 +49,28 @@ fun PostScreen(modifier: Modifier = Modifier, viewModel: PostViewModel = viewMod
     }
 
     Column(modifier = modifier.padding(16.dp).fillMaxSize()) {
-        TextField(
+        OutlinedTextField(
             value = title,
             onValueChange = { title = it },
             label = { Text("Título") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = Blue,
+                focusedLabelColor = Color(0xFF00369A1)
+            ),
+
         )
         Spacer(modifier = Modifier.height(8.dp))
 
-        TextField(
+        OutlinedTextField(
             value = content,
             onValueChange = { content = it },
             label = { Text("Conteúdo") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = Blue,
+                focusedLabelColor = Blue
+            ),
         )
         Spacer(modifier = Modifier.height(8.dp))
 

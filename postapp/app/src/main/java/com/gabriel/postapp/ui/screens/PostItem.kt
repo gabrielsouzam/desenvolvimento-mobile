@@ -10,7 +10,7 @@ import androidx.compose.material.AlertDialog
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material.Card
+import androidx.compose.material3.Card
 import androidx.compose.material.TextButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,7 +35,6 @@ fun PostItem(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
-        elevation = 4.dp
 
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -55,7 +54,7 @@ fun PostItem(
                 }
 
                 Button(onClick = {  onEdit(post)}) {
-                    Text(text = "Edita")
+                    Text(text = "Editar")
                 }
             }
         }
