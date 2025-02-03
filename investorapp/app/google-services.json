@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "953197929067",
+    "firebase_url": "https://investor-project-afd2b-default-rtdb.firebaseio.com",
+    "project_id": "investor-project-afd2b",
+    "storage_bucket": "investor-project-afd2b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:953197929067:android:b63b9167dcd3880a30c72e",
+        "android_client_info": {
+          "package_name": "com.gabriel.investorapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBF1PCCpDzs2E4pYdVujb6m5G9o0gY_b3o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
