@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1019563318194",
+    "project_id": "autheticationapp-da623",
+    "storage_bucket": "autheticationapp-da623.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1019563318194:android:c0a5a54ee1ee4977d3e2ab",
+        "android_client_info": {
+          "package_name": "com.gabriel.authapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1019563318194-t2hic9upog9s5o3t28s304tmn5p9mhgd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gabriel.authapp",
+            "certificate_hash": "36cc2dee56c76222a54a218462bdb84c981d0644"
+          }
+        },
+        {
+          "client_id": "1019563318194-uljn1ju77ub7ihir2dclrbmte0ovp6rf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdddBqpsgjnvJmc8IBXtJm8-Cjf2lhmxY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1019563318194-uljn1ju77ub7ihir2dclrbmte0ovp6rf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
